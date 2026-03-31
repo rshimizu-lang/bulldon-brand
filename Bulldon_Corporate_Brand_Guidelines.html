@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulldon Corporate Brand Guidelines</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans JP', sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+
+const colors = {
+  navy: { hex: "#1B2A4A", name: "Bulldon Navy", usage: "メインブランドカラー / テキスト / ヘッダー" },
+  midNavy: { hex: "#263A5E", name: "Mid Navy", usage: "グラデーション中間 / ホバー" },
+  blue: { hex: "#2563EB", name: "Bulldon Blue", usage: "アクセント / リンク / CTA" },
+  lightBlue: { hex: "#60A5FA", name: "Light Blue", usage: "ロゴ角モチーフ / サブアクセント" },
+  skyBlue: { hex: "#93C5FD", name: "Sky Blue", usage: "背景装飾 / アイコンハイライト" },
+  deepNavy: { hex: "#0F1B33", name: "Deep Navy", usage: "ダークUI / フッター背景" },
+  white: { hex: "#FFFFFF", name: "Pure White", usage: "背景 / テキスト(dark bg)" },
+  offWhite: { hex: "#F8FAFC", name: "Off White", usage: "セクション背景 / カード背景" },
+  gray100: { hex: "#F1F5F9", name: "Slate 100", usage: "テーブル交互行 / 区切り" },
+  gray400: { hex: "#94A3B8", name: "Slate 400", usage: "補助テキスト / キャプション" },
+  gray700: { hex: "#334155", name: "Slate 700", usage: "本文テキスト" },
+  gray900: { hex: "#0F172A", name: "Slate 900", usage: "見出しテキスト" },
+  // Semantic
+  success: { hex: "#22C55E", name: "Success", usage: "成功 / 完了 / アクティブ" },
+  warning: { hex: "#F59E0B", name: "Warning", usage: "注意 / 要確認" },
+  error: { hex: "#EF4444", name: "Error", usage: "エラー / 危険操作" },
+  // B-PASS reference
+  gold: { hex: "#C5A55A", name: "B-PASS Gold", usage: "プロダクトブランド専用（コーポレートでは不使用）" },
+};
+
+const tabs = ["カラー", "タイポグラフィ", "ロゴ", "名刺・レター", "ブランド体系"];
+
+function ColorSwatch({ hex, name, usage }) {
+  const [copied, setCopied] = useState(false);
+  const isLight = ["#FFFFFF", "#F8FAFC", "#F1F5F9", "#93C5FD", "#E8D5A3"].includes(hex);
+  return (
+    <div onClick={() => { navigator.clipboard?.writeText(hex); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+      style={{
+        background: hex, borderRadius: 12, padding: "14px 12px", cursor: "pointer",
+        border: isLight ? "1px solid #E2E8F0" : "1px solid transparent",
+        transition: "transform 0.2s, box-shadow 0.2s", minHeight: 100,
+        display: "flex", flexDirection: "column", justifyContent: "space-between",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.12)"; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
+    >
+      <div>
+        <div style={{ fontWeight: 700, fontSize: 11, color: isLight ? "#1B2A4A" : "#FFFFFF", marginBottom: 2 }}>{name}</div>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: isLight ? "#64748B" : "rgba(255,255,255,0.65)" }}>{copied ? "Copied!" : hex}</div>
+      </div>
+      <div style={{ fontSize: 9, color: isLight ? "#64748B" : "rgba(255,255,255,0.5)", marginTop: 8, lineHeight: 1.4 }}>{usage}</div>
+    </div>
+  );
+}
+
+function SectionLabel({ children }) {
+  return <div style={{ fontSize: 11, fontWeight: 600, color: "#2563EB", letterSpacing: 2, marginBottom: 12 }}>{children}</div>;
+}
+
+/* ── Logo Components ── */
+function BulldonLogoSVG({ size = 1, onDark = false }) {
+  const s = size;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14 * s }}>
+      <svg width={52 * s} height={52 * s} viewBox="0 0 52 52">
+        {/* Hexagon */}
+        <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke={onDark ? "#60A5FA" : "#1B2A4A"} strokeWidth="2.5" strokeLinejoin="round" />
+        {/* Inner hexagon */}
+        <polygon points="26,10 40,18 40,34 26,42 12,34 12,18" fill="none" stroke={onDark ? "rgba(96,165,250,0.3)" : "rgba(27,42,74,0.15)"} strokeWidth="1" />
+        {/* Bull horns */}
+        <path d="M 16,34 Q 12,20 20,12" fill="none" stroke={onDark ? "#93C5FD" : "#60A5FA"} strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M 36,34 Q 40,20 32,12" fill="none" stroke={onDark ? "#93C5FD" : "#60A5FA"} strokeWidth="2.5" strokeLinecap="round" />
+        {/* Center shield / head */}
+        <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke={onDark ? "#FFFFFF" : "#1B2A4A"} strokeWidth="2" strokeLinecap="round" />
+        <circle cx="26" cy="36" r="2.5" fill={onDark ? "#60A5FA" : "#2563EB"} />
+      </svg>
+      <div>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 30 * s, fontWeight: 700, color: onDark ? "#FFFFFF" : "#1B2A4A", letterSpacing: 1.5 * s, lineHeight: 1 }}>
+          Bull<span style={{ color: onDark ? "#60A5FA" : "#2563EB" }}>D</span>on
+        </div>
+        <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 7.5 * s, color: onDark ? "rgba(255,255,255,0.5)" : "#94A3B8", letterSpacing: 2.5 * s, marginTop: 3 * s }}>
+          ACTIVITY SUPPORT COMPANY
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LogoPanel({ label, bg, children }) {
+  return (
+    <div style={{
+      background: bg, borderRadius: 16, padding: "32px 24px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+      border: bg === "#FFFFFF" ? "1px solid #E2E8F0" : "none",
+    }}>
+      {children}
+      <div style={{ fontSize: 10, color: bg === "#FFFFFF" ? "#94A3B8" : "rgba(255,255,255,0.45)", marginTop: 8 }}>{label}</div>
+    </div>
+  );
+}
+
+/* ── Business Card ── */
+function BusinessCardFront() {
+  return (
+    <div style={{
+      width: 340, height: 200, borderRadius: 12, overflow: "hidden", position: "relative",
+      background: "linear-gradient(135deg, #1B2A4A 0%, #0F1B33 100%)",
+      boxShadow: "0 8px 32px rgba(15,27,51,0.3)", padding: "24px 28px",
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+    }}>
+      {/* Decorative hex */}
+      <div style={{ position: "absolute", top: -20, right: -20, opacity: 0.06 }}>
+        <svg width="120" height="120" viewBox="0 0 120 120"><polygon points="60,5 110,30 110,90 60,115 10,90 10,30" fill="none" stroke="#60A5FA" strokeWidth="2" /></svg>
+      </div>
+      <div style={{ position: "absolute", bottom: -15, left: "40%", opacity: 0.04 }}>
+        <svg width="80" height="80" viewBox="0 0 80 80"><polygon points="40,3 75,20 75,60 40,77 5,60 5,20" fill="none" stroke="#60A5FA" strokeWidth="2" /></svg>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <svg width="28" height="28" viewBox="0 0 52 52">
+          <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke="#60A5FA" strokeWidth="2.5" strokeLinejoin="round" />
+          <path d="M 16,34 Q 12,20 20,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M 36,34 Q 40,20 32,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="26" cy="36" r="2.5" fill="#60A5FA" />
+        </svg>
+        <div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 16, fontWeight: 700, color: "#FFFFFF", letterSpacing: 1.5 }}>
+            Bull<span style={{ color: "#60A5FA" }}>D</span>on
+          </div>
+          <div style={{ fontSize: 6, color: "rgba(255,255,255,0.4)", letterSpacing: 2 }}>BULLDON LLC</div>
+        </div>
+      </div>
+
+      <div>
+        <div style={{ fontSize: 8, color: "#60A5FA", letterSpacing: 2, marginBottom: 4 }}>CEO / 代表社員</div>
+        <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 18, fontWeight: 700, color: "#FFFFFF", marginBottom: 2 }}>清水 稜</div>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>Ryo Shimizu</div>
+      </div>
+
+      <div style={{ display: "flex", gap: 16, fontSize: 8, color: "rgba(255,255,255,0.5)" }}>
+        <span>rshimizu@bull-don.com</span>
+        <span>bull-don.com</span>
+      </div>
+    </div>
+  );
+}
+
+function BusinessCardBack() {
+  return (
+    <div style={{
+      width: 340, height: 200, borderRadius: 12, overflow: "hidden",
+      background: "#FFFFFF", border: "1px solid #E2E8F0",
+      boxShadow: "0 8px 32px rgba(15,27,51,0.08)", padding: "24px 28px",
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+    }}>
+      <div style={{ textAlign: "right" }}>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 14, fontWeight: 700, color: "#1B2A4A", letterSpacing: 1 }}>
+          Bull<span style={{ color: "#2563EB" }}>D</span>on LLC
+        </div>
+        <div style={{ fontSize: 8, color: "#94A3B8", marginTop: 2 }}>ブルドン合同会社</div>
+      </div>
+
+      <div style={{ fontSize: 9, color: "#64748B", lineHeight: 1.8 }}>
+        <div>〒187-0004</div>
+        <div>東京都小平市天神町1丁目4番38号-2</div>
+        <div style={{ marginTop: 6 }}>法人番号: 4012703003464</div>
+      </div>
+
+      <div style={{ borderTop: "1px solid #E2E8F0", paddingTop: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 8, color: "#94A3B8" }}>法人向け部活動支援SaaSサービス</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ padding: "2px 6px", borderRadius: 4, background: "#1B2A4A" }}>
+            <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 8, fontWeight: 700, color: "#C5A55A", letterSpacing: 1 }}>B-PASS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Letterhead ── */
+function LetterheadPreview() {
+  return (
+    <div style={{
+      width: "100%", maxWidth: 400, background: "#FFFFFF", borderRadius: 12,
+      border: "1px solid #E2E8F0", boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+      overflow: "hidden",
+    }}>
+      {/* Header stripe */}
+      <div style={{ height: 4, background: "linear-gradient(90deg, #1B2A4A 0%, #2563EB 50%, #60A5FA 100%)" }} />
+      <div style={{ padding: "20px 28px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <svg width="22" height="22" viewBox="0 0 52 52">
+              <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke="#1B2A4A" strokeWidth="2.5" strokeLinejoin="round" />
+              <path d="M 16,34 Q 12,20 20,12" fill="none" stroke="#60A5FA" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 36,34 Q 40,20 32,12" fill="none" stroke="#60A5FA" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke="#1B2A4A" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="26" cy="36" r="2.5" fill="#2563EB" />
+            </svg>
+            <div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, color: "#1B2A4A", letterSpacing: 1 }}>BullDon LLC</div>
+              <div style={{ fontSize: 7, color: "#94A3B8" }}>ブルドン合同会社</div>
+            </div>
+          </div>
+          <div style={{ textAlign: "right", fontSize: 7, color: "#94A3B8", lineHeight: 1.6 }}>
+            <div>〒187-0004 東京都小平市天神町1-4-38-2</div>
+            <div>rshimizu@bull-don.com | bull-don.com</div>
+          </div>
+        </div>
+
+        {/* Body placeholder */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ width: "30%", height: 8, background: "#F1F5F9", borderRadius: 4, marginBottom: 12 }} />
+          <div style={{ width: "100%", height: 6, background: "#F1F5F9", borderRadius: 3, marginBottom: 6 }} />
+          <div style={{ width: "100%", height: 6, background: "#F1F5F9", borderRadius: 3, marginBottom: 6 }} />
+          <div style={{ width: "80%", height: 6, background: "#F1F5F9", borderRadius: 3, marginBottom: 12 }} />
+          <div style={{ width: "100%", height: 6, background: "#F1F5F9", borderRadius: 3, marginBottom: 6 }} />
+          <div style={{ width: "60%", height: 6, background: "#F1F5F9", borderRadius: 3 }} />
+        </div>
+      </div>
+      {/* Footer */}
+      <div style={{ borderTop: "1px solid #F1F5F9", padding: "8px 28px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 7, color: "#CBD5E1" }}>法人番号: 4012703003464</div>
+        <div style={{ fontSize: 7, color: "#CBD5E1" }}>Confidential</div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Email Signature ── */
+function EmailSignature() {
+  return (
+    <div style={{ maxWidth: 400, background: "#FFFFFF", borderRadius: 12, border: "1px solid #E2E8F0", padding: 20 }}>
+      <div style={{ fontSize: 10, color: "#94A3B8", marginBottom: 10 }}>──────────────────</div>
+      <div style={{ display: "flex", gap: 12 }}>
+        <div style={{ width: 3, background: "linear-gradient(180deg, #1B2A4A, #2563EB)", borderRadius: 2, flexShrink: 0 }} />
+        <div style={{ fontSize: 11, color: "#334155", lineHeight: 1.8 }}>
+          <div style={{ fontWeight: 700, fontSize: 13, color: "#1B2A4A" }}>清水 稜（Ryo Shimizu）</div>
+          <div style={{ color: "#2563EB", fontSize: 10 }}>CEO / 代表社員</div>
+          <div style={{ marginTop: 4 }}>
+            <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, color: "#1B2A4A", letterSpacing: 0.5 }}>Bull</span>
+            <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, color: "#2563EB", letterSpacing: 0.5 }}>D</span>
+            <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, color: "#1B2A4A", letterSpacing: 0.5 }}>on</span>
+            <span style={{ color: "#94A3B8" }}> 合同会社</span>
+          </div>
+          <div style={{ fontSize: 10, color: "#64748B", marginTop: 4 }}>
+            〒187-0004 東京都小平市天神町1-4-38-2
+          </div>
+          <div style={{ fontSize: 10, color: "#64748B" }}>
+            rshimizu@bull-don.com | bull-don.com
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Brand Architecture ── */
+function BrandArchitecture() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 500, margin: "0 auto" }}>
+      {/* Corporate */}
+      <div style={{
+        background: "linear-gradient(135deg, #1B2A4A, #0F1B33)", borderRadius: 16, padding: 24,
+        border: "2px solid #2563EB",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <svg width="28" height="28" viewBox="0 0 52 52">
+            <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke="#60A5FA" strokeWidth="2.5" />
+            <path d="M 16,34 Q 12,20 20,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M 36,34 Q 40,20 32,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="26" cy="36" r="2.5" fill="#60A5FA" />
+          </svg>
+          <div>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, color: "#FFFFFF", letterSpacing: 1 }}>BullDon LLC</div>
+            <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)" }}>コーポレートブランド</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
+          <div style={{ width: 18, height: 18, borderRadius: 4, background: "#1B2A4A", border: "1px solid #334155" }} />
+          <div style={{ width: 18, height: 18, borderRadius: 4, background: "#2563EB" }} />
+          <div style={{ width: 18, height: 18, borderRadius: 4, background: "#60A5FA" }} />
+        </div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
+          使用場面: 契約書・請求書・名刺・LP・コーポレートサイト・事業計画書
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <div style={{ textAlign: "center", color: "#94A3B8", fontSize: 20 }}>↓</div>
+
+      {/* Products */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        {/* B-PASS */}
+        <div style={{
+          background: "linear-gradient(135deg, #1B2A4A, #0F1B33)", borderRadius: 16, padding: 20,
+          border: "2px solid #C5A55A",
+        }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 18, fontWeight: 700, color: "#FFFFFF", letterSpacing: 2, marginBottom: 6 }}>B-PASS</div>
+          <div style={{ fontSize: 9, color: "#C5A55A", marginBottom: 8 }}>プロダクトブランド</div>
+          <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+            <div style={{ width: 14, height: 14, borderRadius: 3, background: "#1B2A4A", border: "1px solid #334155" }} />
+            <div style={{ width: 14, height: 14, borderRadius: 3, background: "#C5A55A" }} />
+            <div style={{ width: 14, height: 14, borderRadius: 3, background: "#E8D5A3" }} />
+          </div>
+          <div style={{ fontSize: 8, color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>
+            LINE UI・管理画面・営業資料・顧客接点すべて
+          </div>
+        </div>
+
+        {/* Samurai Shimonz */}
+        <div style={{
+          background: "#FFFFFF", borderRadius: 16, padding: 20,
+          border: "1px solid #E2E8F0",
+        }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 14, fontWeight: 700, color: "#1B2A4A", marginBottom: 6 }}>SAMURAI<br />SHIMONZ</div>
+          <div style={{ fontSize: 9, color: "#94A3B8", marginBottom: 8 }}>コミュニティブランド</div>
+          <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+            <div style={{ width: 14, height: 14, borderRadius: 3, background: "#F97316" }} />
+            <div style={{ width: 14, height: 14, borderRadius: 3, background: "#1B2A4A" }} />
+          </div>
+          <div style={{ fontSize: 8, color: "#94A3B8", lineHeight: 1.5 }}>
+            LINE公式・SNS・体育館告知・PoC運用
+          </div>
+        </div>
+      </div>
+
+      {/* Relationship note */}
+      <div style={{ background: "#F8FAFC", borderRadius: 12, padding: 16, border: "1px solid #E2E8F0" }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: "#1B2A4A", marginBottom: 6 }}>ブランド使い分けルール</div>
+        <div style={{ fontSize: 10, color: "#64748B", lineHeight: 1.7 }}>
+          <div style={{ marginBottom: 4 }}>• BulldonロゴとB-PASSロゴの同時使用時 → Bulldonを上位配置</div>
+          <div style={{ marginBottom: 4 }}>• 顧客が直接触れるUI → B-PASSブランド（Navy×Gold）</div>
+          <div style={{ marginBottom: 4 }}>• 法的文書・契約・請求 → Bulldonブランド（Navy×Blue）</div>
+          <div>• サムライシモンズ → 独自ブランド（オレンジ系）。B-PASSの実証環境として位置付け</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main ── */
+const BulldonCorporateGuidelines = function() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#F8FAFC", fontFamily: "'Noto Sans JP', sans-serif" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+      {/* Hero */}
+      <div style={{
+        background: "linear-gradient(135deg, #1B2A4A 0%, #0F1B33 40%, #1a2847 100%)",
+        padding: "44px 24px 36px", position: "relative", overflow: "hidden",
+      }}>
+        {/* Hex decoration */}
+        <div style={{ position: "absolute", top: -30, right: -30, opacity: 0.06 }}>
+          <svg width="200" height="200" viewBox="0 0 200 200"><polygon points="100,10 185,50 185,150 100,190 15,150 15,50" fill="none" stroke="#60A5FA" strokeWidth="2" /></svg>
+        </div>
+        <div style={{ position: "absolute", bottom: -40, left: "20%", opacity: 0.04 }}>
+          <svg width="160" height="160" viewBox="0 0 160 160"><polygon points="80,8 148,40 148,120 80,152 12,120 12,40" fill="none" stroke="#60A5FA" strokeWidth="2" /></svg>
+        </div>
+        <div style={{ maxWidth: 800, margin: "0 auto", position: "relative" }}>
+          <div style={{ fontSize: 11, letterSpacing: 6, color: "#60A5FA", marginBottom: 10 }}>CORPORATE BRAND GUIDELINES</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <svg width="44" height="44" viewBox="0 0 52 52">
+              <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke="#60A5FA" strokeWidth="2.5" strokeLinejoin="round" />
+              <path d="M 16,34 Q 12,20 20,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 36,34 Q 40,20 32,12" fill="none" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="26" cy="36" r="2.5" fill="#60A5FA" />
+            </svg>
+            <div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 36, fontWeight: 700, color: "#FFFFFF", letterSpacing: 2 }}>
+                Bull<span style={{ color: "#60A5FA" }}>D</span>on
+              </div>
+            </div>
+          </div>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 10 }}>
+            ブルドン合同会社 — 法人向け部活動支援SaaSサービスの開発・提供・運営
+          </div>
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>Version 1.0 — March 2026</div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px", position: "sticky", top: 0, zIndex: 10, background: "#F8FAFC" }}>
+        <div style={{ display: "flex", gap: 0, borderBottom: "2px solid #E2E8F0", paddingTop: 6, overflowX: "auto" }}>
+          {tabs.map((tab, i) => (
+            <button key={i} onClick={() => setActiveTab(i)} style={{
+              padding: "12px 14px", border: "none", whiteSpace: "nowrap",
+              borderBottom: activeTab === i ? "2px solid #2563EB" : "2px solid transparent",
+              background: "none", fontSize: 13, fontWeight: activeTab === i ? 600 : 400,
+              color: activeTab === i ? "#1B2A4A" : "#94A3B8", cursor: "pointer", marginBottom: -2,
+            }}>{tab}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "28px 24px 64px" }}>
+
+        {/* ═══ COLOR ═══ */}
+        {activeTab === 0 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>COLOR PALETTE</h2>
+            <p style={{ fontSize: 12, color: "#64748B", marginBottom: 24, lineHeight: 1.6 }}>
+              Bulldonコーポレートカラー。Navy×Blueの堅実で信頼感のあるパレット。プロダクト（B-PASS）のGoldとは明確に区別する。
+            </p>
+
+            {[
+              { label: "PRIMARY — NAVY", keys: ["navy", "midNavy", "deepNavy"] },
+              { label: "ACCENT — BLUE", keys: ["blue", "lightBlue", "skyBlue"] },
+              { label: "NEUTRAL", keys: ["white", "offWhite", "gray100", "gray400", "gray700", "gray900"] },
+              { label: "SEMANTIC", keys: ["success", "warning", "error"] },
+            ].map((group) => (
+              <div key={group.label} style={{ marginBottom: 22 }}>
+                <SectionLabel>{group.label}</SectionLabel>
+                <div style={{ display: "grid", gridTemplateColumns: group.keys.length > 3 ? "repeat(3, 1fr)" : `repeat(${group.keys.length}, 1fr)`, gap: 10 }}>
+                  {group.keys.map(k => <ColorSwatch key={k} {...colors[k]} />)}
+                </div>
+              </div>
+            ))}
+
+            <SectionLabel>GRADIENTS</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+              {[
+                { bg: "linear-gradient(135deg, #1B2A4A, #0F1B33)", label: "Navy Gradient" },
+                { bg: "linear-gradient(135deg, #2563EB, #60A5FA)", label: "Blue Gradient" },
+                { bg: "linear-gradient(90deg, #1B2A4A, #2563EB, #60A5FA)", label: "Brand Stripe" },
+              ].map((g, i) => (
+                <div key={i} style={{ background: g.bg, borderRadius: 12, padding: 16, height: 60, display: "flex", alignItems: "flex-end" }}>
+                  <span style={{ fontSize: 9, color: "rgba(255,255,255,0.5)", fontFamily: "'JetBrains Mono', monospace" }}>{g.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Do / Don't */}
+            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div style={{ background: "#FFFFFF", borderRadius: 12, padding: 16, border: "1px solid #E2E8F0" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#22C55E", marginBottom: 8 }}>✓ DO</div>
+                <div style={{ fontSize: 10, color: "#64748B", lineHeight: 1.7 }}>
+                  <div>• コーポレート文書にはNavy×Blueを使用</div>
+                  <div>• ヘッダーストライプにブランドグラデーション</div>
+                  <div>• 十分なコントラスト比を確保</div>
+                </div>
+              </div>
+              <div style={{ background: "#FFFFFF", borderRadius: 12, padding: 16, border: "1px solid #E2E8F0" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#EF4444", marginBottom: 8 }}>✕ DON'T</div>
+                <div style={{ fontSize: 10, color: "#64748B", lineHeight: 1.7 }}>
+                  <div>• コーポレート文書にGoldを使用しない</div>
+                  <div>• ロゴカラーを任意に変更しない</div>
+                  <div>• Blue系以外のアクセント色を追加しない</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══ TYPOGRAPHY ═══ */}
+        {activeTab === 1 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>TYPOGRAPHY</h2>
+            <p style={{ fontSize: 12, color: "#64748B", marginBottom: 24, lineHeight: 1.6 }}>B-PASSプロダクトと同じ3フォントシステム。コーポレート用途ではよりフォーマルなウェイトを使用。</p>
+
+            {[
+              { name: "DISPLAY — OSWALD", usage: "社名 / 見出し / セクション", font: "'Oswald', sans-serif", samples: [
+                { text: "BullDon LLC", size: 32, weight: 700, ls: 2 },
+                { text: "CORPORATE BRAND GUIDELINES", size: 16, weight: 500, color: "#64748B" },
+              ]},
+              { name: "BODY — NOTO SANS JP", usage: "本文 / 契約書 / 提案資料", font: "'Noto Sans JP', sans-serif", samples: [
+                { text: "ブルドン合同会社", size: 20, weight: 700 },
+                { text: "法人向け部活動支援SaaSサービスの開発・提供・運営", size: 14, weight: 400, color: "#64748B" },
+              ]},
+              { name: "MONO — JETBRAINS MONO", usage: "法人番号 / コード / 数値", font: "'JetBrains Mono', monospace", samples: [
+                { text: "4012703003464", size: 16, weight: 500, color: "#2563EB" },
+                { text: "2026.01.29 EST.", size: 12, weight: 400, color: "#94A3B8" },
+              ]},
+            ].map((group) => (
+              <div key={group.name} style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, marginBottom: 12, border: "1px solid #E2E8F0" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 14 }}>
+                  <SectionLabel>{group.name}</SectionLabel>
+                  <span style={{ fontSize: 10, color: "#94A3B8" }}>{group.usage}</span>
+                </div>
+                {group.samples.map((s, i) => (
+                  <div key={i} style={{ fontFamily: group.font, fontSize: s.size, fontWeight: s.weight, color: s.color || "#1B2A4A", letterSpacing: s.ls, marginBottom: 6 }}>{s.text}</div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ═══ LOGO ═══ */}
+        {activeTab === 2 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>LOGO</h2>
+            <p style={{ fontSize: 12, color: "#64748B", marginBottom: 24, lineHeight: 1.6 }}>
+              牛の角×ヘキサゴンの既存ロゴを継続使用。「D」のブルーアクセントがブランドの識別ポイント。
+            </p>
+
+            <SectionLabel>PRIMARY LOGO</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }}>
+              <LogoPanel label="Light Background（標準）" bg="#FFFFFF"><BulldonLogoSVG onDark={false} /></LogoPanel>
+              <LogoPanel label="Dark Background" bg="linear-gradient(135deg, #1B2A4A, #0F1B33)"><BulldonLogoSVG onDark={true} /></LogoPanel>
+            </div>
+
+            <SectionLabel>ICON MARK</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 24 }}>
+              {[
+                { bg: "#FFFFFF", dark: false },
+                { bg: "linear-gradient(135deg, #1B2A4A, #0F1B33)", dark: true },
+                { bg: "#2563EB", dark: true },
+              ].map((v, i) => (
+                <LogoPanel key={i} label={i === 0 ? "Light" : i === 1 ? "Dark" : "Blue"} bg={v.bg}>
+                  <svg width="52" height="52" viewBox="0 0 52 52">
+                    <polygon points="26,3 47,14 47,38 26,49 5,38 5,14" fill="none" stroke={v.dark ? "#60A5FA" : "#1B2A4A"} strokeWidth="2.5" strokeLinejoin="round" />
+                    <path d="M 16,34 Q 12,20 20,12" fill="none" stroke={v.dark ? "#93C5FD" : "#60A5FA"} strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M 36,34 Q 40,20 32,12" fill="none" stroke={v.dark ? "#93C5FD" : "#60A5FA"} strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M 20,34 Q 20,26 26,22 Q 32,26 32,34" fill="none" stroke={v.dark ? "#FFFFFF" : "#1B2A4A"} strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="26" cy="36" r="2.5" fill={v.dark ? "#60A5FA" : "#2563EB"} />
+                  </svg>
+                </LogoPanel>
+              ))}
+            </div>
+
+            <SectionLabel>USAGE RULES</SectionLabel>
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E2E8F0" }}>
+              {[
+                "ロゴの周囲にヘキサゴンマークの高さ分のクリアスペースを確保",
+                "ロゴカラーはNavy / Blue / White の3色のみ。Goldは不使用",
+                "ロゴの変形・回転・影・アウトライン追加は禁止",
+                "写真上に配置する場合は十分なコントラストを確保（暗化オーバーレイ推奨）",
+                "最小表示幅: 横組み100px / アイコン単体24px",
+                "B-PASSロゴとの同時使用時はBulldonを上位に配置",
+              ].map((rule, i, arr) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "7px 0", borderBottom: i < arr.length - 1 ? "1px solid #F1F5F9" : "none" }}>
+                  <span style={{ fontSize: 10, color: "#2563EB", marginTop: 2 }}>●</span>
+                  <span style={{ fontSize: 12, color: "#334155", lineHeight: 1.5 }}>{rule}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ STATIONERY ═══ */}
+        {activeTab === 3 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>STATIONERY</h2>
+            <p style={{ fontSize: 12, color: "#64748B", marginBottom: 24, lineHeight: 1.6 }}>名刺・レターヘッド・メール署名のデザインテンプレート。</p>
+
+            <SectionLabel>名刺（表）</SectionLabel>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><BusinessCardFront /></div>
+
+            <SectionLabel>名刺（裏）</SectionLabel>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}><BusinessCardBack /></div>
+
+            <SectionLabel>レターヘッド</SectionLabel>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}><LetterheadPreview /></div>
+
+            <SectionLabel>メール署名</SectionLabel>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><EmailSignature /></div>
+
+            <div style={{ background: "#FFFFFF", borderRadius: 12, padding: 16, border: "1px solid #E2E8F0" }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "#1B2A4A", marginBottom: 8 }}>デザイン原則</div>
+              <div style={{ fontSize: 10, color: "#64748B", lineHeight: 1.7 }}>
+                <div style={{ marginBottom: 4 }}>• ヘッダーにNavy→Blue→LightBlueのグラデーションストライプ（4px高）</div>
+                <div style={{ marginBottom: 4 }}>• ロゴは左上配置。法人番号はフッターに小さく記載</div>
+                <div style={{ marginBottom: 4 }}>• 名刺表面はダークテーマ、裏面はライトテーマ（所在地・法人情報）</div>
+                <div>• 六角形モチーフを背景装飾として控えめに使用</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══ BRAND ARCHITECTURE ═══ */}
+        {activeTab === 4 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>BRAND ARCHITECTURE</h2>
+            <p style={{ fontSize: 12, color: "#64748B", marginBottom: 24, lineHeight: 1.6 }}>
+              Bulldon（コーポレート）→ B-PASS（プロダクト）→ サムライシモンズ（コミュニティ）の3層構造。
+            </p>
+            <BrandArchitecture />
+
+            <div style={{ marginTop: 28, background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E2E8F0" }}>
+              <SectionLabel>BRAND TONE OF VOICE</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                {[
+                  { brand: "Bulldon", tone: "堅実・信頼・プロフェッショナル", example: "ご検討のほどよろしくお願いいたします。", color: "#2563EB" },
+                  { brand: "B-PASS", tone: "効率的・スマート・先進的", example: "B-PASSが部活動の運営を一元管理します。", color: "#C5A55A" },
+                  { brand: "サムライシモンズ", tone: "カジュアル・フレンドリー・活動的", example: "明日のバスケ楽しみにしてます！🏀", color: "#F97316" },
+                ].map((item, i) => (
+                  <div key={i} style={{ padding: 14, borderRadius: 10, background: "#F8FAFC", border: "1px solid #E2E8F0" }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: item.color, marginBottom: 6 }}>{item.brand}</div>
+                    <div style={{ fontSize: 10, color: "#334155", marginBottom: 8 }}>{item.tone}</div>
+                    <div style={{ fontSize: 9, color: "#94A3B8", fontStyle: "italic", lineHeight: 1.5 }}>「{item.example}」</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginTop: 16, background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E2E8F0" }}>
+              <SectionLabel>会社概要</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: "8px 16px", fontSize: 12, color: "#334155", lineHeight: 1.8 }}>
+                {[
+                  ["会社名", "ブルドン合同会社（Bulldon LLC）"],
+                  ["法人番号", "4012703003464"],
+                  ["設立日", "2026年1月29日"],
+                  ["資本金", "1,000,000円（自己資金）"],
+                  ["所在地", "〒187-0004 東京都小平市天神町1-4-38-2"],
+                  ["代表者", "清水 稜（代表社員 CEO）"],
+                  ["決算月", "12月"],
+                  ["事業目的", "法人向け部活動支援SaaSの開発・提供・運営"],
+                  ["連絡先", "rshimizu@bull-don.com"],
+                  ["Web", "bull-don.com"],
+                ].map(([label, value], i) => (
+                  <React.Fragment key={i}>
+                    <div style={{ color: "#94A3B8", fontWeight: 500 }}>{label}</div>
+                    <div style={{ fontFamily: label === "法人番号" ? "'JetBrains Mono', monospace" : "inherit" }}>{value}</div>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(BulldonCorporateGuidelines));
+    </script>
+</body>
+</html>

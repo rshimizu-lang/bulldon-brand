@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-PASS Brand Guidelines v2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans JP', sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+
+const colors = {
+  navy: { hex: "#1B2A4A", name: "B-PASS Navy", usage: "メインブランドカラー / ヘッダー / カード背景", category: "primary" },
+  deepNavy: { hex: "#0F1B33", name: "Deep Navy", usage: "ダークUI / 会員証背景 / フッター", category: "primary" },
+  gold: { hex: "#C5A55A", name: "B-PASS Gold", usage: "アクセント / ID / ラベル / ランクバッジ", category: "accent" },
+  lightGold: { hex: "#E8D5A3", name: "Light Gold", usage: "ホバー / サブアクセント / 装飾線", category: "accent" },
+  darkGold: { hex: "#9E843F", name: "Dark Gold", usage: "ゴールドテキスト on ライト背景", category: "accent" },
+  white: { hex: "#FFFFFF", name: "Pure White", usage: "本文テキスト(dark bg) / カード背景", category: "neutral" },
+  offWhite: { hex: "#F5F5F0", name: "Off White", usage: "ページ背景 / 管理画面ベース", category: "neutral" },
+  gray100: { hex: "#F3F4F6", name: "Gray 100", usage: "セクション区切り / テーブル交互行", category: "neutral" },
+  gray: { hex: "#6B7280", name: "Neutral Gray", usage: "補助テキスト / プレースホルダー", category: "neutral" },
+  darkText: { hex: "#1F2937", name: "Dark Text", usage: "ライト背景上の本文テキスト", category: "neutral" },
+  success: { hex: "#22C55E", name: "Success Green", usage: "残席あり / 参加確定 / 成功", category: "semantic" },
+  warning: { hex: "#F59E0B", name: "Warning Amber", usage: "残席わずか / 注意状態", category: "semantic" },
+  error: { hex: "#EF4444", name: "Alert Red", usage: "満席 / エラー / キャンセル / 取消", category: "semantic" },
+};
+
+const tabs = ["カラー", "タイポグラフィ", "ロゴ", "UIサンプル", "Flex Message"];
+
+function ColorSwatch({ hex, name, usage }) {
+  const [copied, setCopied] = useState(false);
+  const isLight = ["#FFFFFF", "#F5F5F0", "#E8D5A3", "#F3F4F6"].includes(hex);
+  return (
+    <div
+      onClick={() => { navigator.clipboard?.writeText(hex); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+      style={{
+        background: hex, borderRadius: 12, padding: "16px 14px", cursor: "pointer",
+        border: isLight ? "1px solid #E5E7EB" : "1px solid transparent",
+        transition: "transform 0.2s, box-shadow 0.2s", minHeight: 110,
+        display: "flex", flexDirection: "column", justifyContent: "space-between",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)"; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
+    >
+      <div>
+        <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 700, fontSize: 12, color: isLight ? "#1B2A4A" : "#FFFFFF", marginBottom: 3 }}>{name}</div>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: isLight ? "#6B7280" : "rgba(255,255,255,0.7)" }}>{copied ? "Copied!" : hex}</div>
+      </div>
+      <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 10, color: isLight ? "#6B7280" : "rgba(255,255,255,0.55)", marginTop: 10, lineHeight: 1.4 }}>{usage}</div>
+    </div>
+  );
+}
+
+/* ── B-PASS Logo SVG Components ── */
+function LogoTypeA({ size = 1, onDark = true }) {
+  const s = size;
+  return (
+    <svg width={220 * s} height={48 * s} viewBox="0 0 220 48">
+      {/* B */}
+      <text x="0" y="38" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="44" fill={onDark ? "#FFFFFF" : "#1B2A4A"} letterSpacing="2">B</text>
+      {/* - */}
+      <rect x="32" y="20" width="12" height="5" rx="1" fill="#C5A55A" />
+      {/* P */}
+      <text x="48" y="38" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="44" fill={onDark ? "#FFFFFF" : "#1B2A4A"} letterSpacing="2">P</text>
+      {/* A with gold triangle */}
+      <text x="80" y="38" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="44" fill={onDark ? "#FFFFFF" : "#1B2A4A"} letterSpacing="2">A</text>
+      <polygon points="101,32 96,24 106,24" fill="#C5A55A" />
+      {/* SS */}
+      <text x="114" y="38" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="44" fill={onDark ? "#FFFFFF" : "#1B2A4A"} letterSpacing="2">SS</text>
+      {/* Tagline */}
+      <text x="0" y="47" fontFamily="'Noto Sans JP', sans-serif" fontWeight="400" fontSize="7" fill="#C5A55A" letterSpacing="4">ACTIVITY MANAGEMENT PLATFORM</text>
+    </svg>
+  );
+}
+
+function LogoTypeB({ size = 1, onDark = true }) {
+  const s = size;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 12 * s }}>
+      {/* Icon mark */}
+      <div style={{
+        width: 44 * s, height: 44 * s, borderRadius: 10 * s,
+        background: "linear-gradient(135deg, #C5A55A, #E8D5A3)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 2px 8px rgba(197,165,90,0.3)",
+      }}>
+        <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 26 * s, fontWeight: 700, color: "#0F1B33", lineHeight: 1 }}>B</span>
+      </div>
+      <div>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 30 * s, fontWeight: 700, color: onDark ? "#FFFFFF" : "#1B2A4A", letterSpacing: 3 * s, lineHeight: 1 }}>B-PASS</div>
+        <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 7 * s, color: "#C5A55A", letterSpacing: 3 * s, marginTop: 3 * s }}>ACTIVITY MANAGEMENT PLATFORM</div>
+      </div>
+    </div>
+  );
+}
+
+function LogoTypeC({ size = 1, onDark = true }) {
+  const s = size;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10 * s }}>
+      {/* Hexagonal icon inspired by Bulldon */}
+      <svg width={44 * s} height={44 * s} viewBox="0 0 44 44">
+        <polygon points="22,2 40,12 40,32 22,42 4,32 4,12" fill="none" stroke="#C5A55A" strokeWidth="2" />
+        <polygon points="22,8 34,15 34,29 22,36 10,29 10,15" fill="none" stroke={onDark ? "rgba(255,255,255,0.2)" : "rgba(27,42,74,0.15)"} strokeWidth="1" />
+        <text x="22" y="28" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="20" fill="#C5A55A">B</text>
+      </svg>
+      <div>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28 * s, fontWeight: 700, color: onDark ? "#FFFFFF" : "#1B2A4A", letterSpacing: 3 * s, lineHeight: 1 }}>B-PASS</div>
+        <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 7 * s, color: "#C5A55A", letterSpacing: 2.5 * s, marginTop: 3 * s }}>ACTIVITY MANAGEMENT PLATFORM</div>
+      </div>
+    </div>
+  );
+}
+
+function LogoPanel({ label, bg, children, sublabel }) {
+  return (
+    <div style={{
+      background: bg, borderRadius: 16, padding: "28px 20px", display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+      border: bg === "#FFFFFF" ? "1px solid #E5E7EB" : "none",
+    }}>
+      {children}
+      <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11, fontWeight: 600, color: bg === "#FFFFFF" ? "#1B2A4A" : "rgba(255,255,255,0.7)", marginTop: 10 }}>{label}</div>
+      {sublabel && <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 10, color: bg === "#FFFFFF" ? "#9CA3AF" : "rgba(255,255,255,0.4)", textAlign: "center", lineHeight: 1.4 }}>{sublabel}</div>}
+    </div>
+  );
+}
+
+/* ── UI Sample Components ── */
+function MemberCard() {
+  return (
+    <div style={{
+      background: "linear-gradient(135deg, #1B2A4A 0%, #0F1B33 60%, #1a2847 100%)",
+      borderRadius: 16, padding: "24px 20px", maxWidth: 340, margin: "0 auto", position: "relative", overflow: "hidden",
+      boxShadow: "0 12px 40px rgba(15,27,51,0.4)",
+    }}>
+      <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle, rgba(197,165,90,0.12) 0%, transparent 70%)" }} />
+      <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 13, letterSpacing: 4, color: "#C5A55A", marginBottom: 16, textAlign: "center" }}>B-PASS MEMBER PASSPORT</div>
+      <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+        <div style={{ width: 80, height: 80, background: "#FFFFFF", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#9CA3AF" }}>QR Code</div>
+        <div>
+          <div style={{ fontSize: 9, color: "#C5A55A", letterSpacing: 1 }}>NAME</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: "#FFFFFF", marginBottom: 8 }}>山田 太郎</div>
+          <div style={{ fontSize: 9, color: "#C5A55A", letterSpacing: 1 }}>ID</div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 16, fontWeight: 600, color: "#C5A55A" }}>SS000042</div>
+        </div>
+      </div>
+      <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(197,165,90,0.2)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <div style={{ fontSize: 9, color: "#C5A55A", letterSpacing: 1 }}>RANK</div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 14, fontWeight: 600, color: "#FFFFFF" }}>Regular</div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22C55E" }} />
+          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>Active</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScheduleCard() {
+  return (
+    <div style={{ background: "#FFFFFF", borderRadius: 16, overflow: "hidden", maxWidth: 340, margin: "0 auto", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+      <div style={{ background: "linear-gradient(135deg, #1B2A4A, #0F1B33)", padding: "14px 18px", display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ fontSize: 15 }}>📅</span>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF", letterSpacing: 1 }}>参加日程を選択</span>
+      </div>
+      <div style={{ padding: "18px" }}>
+        {[{ date: "4/8(Tue)", time: "19:00〜22:00", seats: 18 }, { date: "4/22(Tue)", time: "19:00〜22:00", seats: 3 }].map((ev, i) => (
+          <div key={i} style={{ marginBottom: i === 0 ? 14 : 0 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, color: "#1B2A4A" }}>{ev.date}</span>
+              <span style={{ fontSize: 12, color: "#6B7280" }}>{ev.time}</span>
+            </div>
+            <div style={{ fontSize: 11, color: "#6B7280", margin: "3px 0 5px" }}>@ 東大和市立第一中学校</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: ev.seats > 10 ? "#22C55E" : "#F59E0B" }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: ev.seats > 10 ? "#22C55E" : "#F59E0B" }}>残 {ev.seats} 席</span>
+            </div>
+            <button style={{
+              width: "100%", padding: "11px", border: "none", borderRadius: 8,
+              background: "linear-gradient(135deg, #1B2A4A, #263a5e)", color: "#FFFFFF",
+              fontSize: 13, fontWeight: 600, cursor: "pointer",
+            }}>申込（残 {ev.seats} 席）</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RichMenuPreview() {
+  const items = [
+    { icon: "📅", label: "参加申込" }, { icon: "✕", label: "キャンセル" }, { icon: "👤", label: "予約状況" },
+    { icon: "🪪", label: "会員証" }, { icon: "💬", label: "チャット" }, { icon: "📊", label: "活動履歴" },
+  ];
+  return (
+    <div style={{
+      maxWidth: 340, margin: "0 auto", background: "linear-gradient(135deg, #1B2A4A, #0F1B33)",
+      borderRadius: 16, padding: 10, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6,
+    }}>
+      {items.map((item, i) => (
+        <div key={i} style={{
+          background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: "14px 6px",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
+          cursor: "pointer", border: "1px solid rgba(197,165,90,0.12)",
+        }}>
+          <span style={{ fontSize: 22 }}>{item.icon}</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#FFFFFF" }}>{item.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FlexMessageDemo({ type }) {
+  if (type === "welcome") {
+    return (
+      <div style={{ maxWidth: 300, margin: "0 auto" }}>
+        <div style={{ background: "#22C55E", borderRadius: "16px 16px 0 0", padding: "14px 18px" }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>連携完了 🎉</span>
+        </div>
+        <div style={{ background: "#FFFFFF", borderRadius: "0 0 16px 16px", padding: "18px", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>山田太郎 さん、ようこそ！</div>
+          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 16 }}>ID: SS000042</div>
+          <button style={{ width: "100%", padding: "12px", border: "none", borderRadius: 8, background: "#1B2A4A", color: "#FFFFFF", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>会員証を見る</button>
+        </div>
+      </div>
+    );
+  }
+  if (type === "cancel") {
+    return (
+      <div style={{ maxWidth: 300, margin: "0 auto" }}>
+        <div style={{ background: "#EF4444", borderRadius: "16px 16px 0 0", padding: "14px 18px" }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>🗑️ キャンセル理由</span>
+        </div>
+        <div style={{ background: "#FFFFFF", borderRadius: "0 0 16px 16px", padding: "18px", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#1F2937", textAlign: "center", marginBottom: 4 }}>対象日: 4/8(Tue)</div>
+          <div style={{ fontSize: 12, color: "#6B7280", textAlign: "center", marginBottom: 14 }}>理由を選択してください</div>
+          {["仕事・学校の都合", "体調不良（怪我）", "家族・私用の都合", "その他"].map((r, i) => (
+            <button key={i} style={{ width: "100%", padding: "10px", border: "1px solid #E5E7EB", borderRadius: 8, background: "#F9FAFB", color: "#374151", fontSize: 13, cursor: "pointer", marginBottom: 6, fontWeight: 500 }}>{r}</button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (type === "reminder") {
+    return (
+      <div style={{ maxWidth: 300, margin: "0 auto" }}>
+        <div style={{ background: "#1B2A4A", borderRadius: "16px 16px 0 0", padding: "14px 18px" }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#C5A55A" }}>明日は活動日です</span>
+        </div>
+        <div style={{ background: "#FFFFFF", borderRadius: "0 0 16px 16px", padding: "18px", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: 13, color: "#374151", marginBottom: 12 }}>山田太郎 さん、明日のご参加をお待ちしております！</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#1B2A4A", marginBottom: 2 }}>📅 4/8(Tue) 19:00〜22:00</div>
+          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 8 }}>📍 東大和市立第一中学校</div>
+          <div style={{ fontSize: 11, color: "#EF4444", marginBottom: 14 }}>※ 参加できない場合はキャンセル手続きをお願いします。</div>
+          <button style={{ width: "100%", padding: "11px", border: "none", borderRadius: 8, background: "#1B2A4A", color: "#FFFFFF", fontSize: 13, fontWeight: 600, cursor: "pointer", marginBottom: 6 }}>LINEメニューを開く</button>
+          <button style={{ width: "100%", padding: "11px", border: "1px solid #E5E7EB", borderRadius: 8, background: "#F9FAFB", color: "#374151", fontSize: 13, fontWeight: 500, cursor: "pointer" }}>地図を開く</button>
+        </div>
+      </div>
+    );
+  }
+  if (type === "admin") {
+    return (
+      <div style={{ maxWidth: 300, margin: "0 auto" }}>
+        <div style={{ background: "#1B2A4A", borderRadius: "16px 16px 0 0", padding: "14px 18px", display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 15 }}>🔧</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>管理者メニュー</span>
+        </div>
+        <div style={{ background: "#FFFFFF", borderRadius: "0 0 16px 16px", padding: "18px", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: 12, color: "#6B7280", textAlign: "center", marginBottom: 14 }}>機能を選択してください。</div>
+          {[{ icon: "📊", label: "今日の集計" }, { icon: "📋", label: "参加者リスト" }, { icon: "🔍", label: "メンバー検索" }].map((item, i) => (
+            <button key={i} style={{
+              width: "100%", padding: "12px", border: "none", borderRadius: 10, marginBottom: 8,
+              background: "linear-gradient(135deg, #1B2A4A, #263a5e)", color: "#FFFFFF",
+              fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}><span>{item.icon}</span> {item.label}</button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return null;
+}
+
+/* ── Main Component ── */
+const BPassBrandGuidelines = function() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const SectionLabel = ({ children }) => (
+    <div style={{ fontSize: 11, fontWeight: 600, color: "#C5A55A", letterSpacing: 2, marginBottom: 12 }}>{children}</div>
+  );
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#F5F5F0", fontFamily: "'Noto Sans JP', sans-serif" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg, #1B2A4A 0%, #0F1B33 50%, #1a2847 100%)", padding: "44px 24px 36px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -60, right: -60, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(197,165,90,0.12) 0%, transparent 70%)" }} />
+        <div style={{ maxWidth: 800, margin: "0 auto", position: "relative" }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 12, letterSpacing: 6, color: "#C5A55A", marginBottom: 10 }}>BRAND GUIDELINES V2</div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 38, fontWeight: 700, color: "#FFFFFF", letterSpacing: 3, lineHeight: 1.1 }}>B-PASS</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 10, lineHeight: 1.6 }}>
+            Bulldon LLC — 法人向け部活動管理プラットフォーム
+          </div>
+          <div style={{ display: "flex", gap: 16, marginTop: 14, alignItems: "center" }}>
+            <div style={{ padding: "4px 10px", borderRadius: 6, background: "rgba(197,165,90,0.15)", border: "1px solid rgba(197,165,90,0.3)" }}>
+              <span style={{ fontSize: 10, color: "#C5A55A" }}>コーポレート: Navy × Blue</span>
+            </div>
+            <div style={{ padding: "4px 10px", borderRadius: 6, background: "rgba(197,165,90,0.25)", border: "1px solid rgba(197,165,90,0.5)" }}>
+              <span style={{ fontSize: 10, color: "#E8D5A3", fontWeight: 600 }}>プロダクト: Navy × Gold</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px", position: "sticky", top: 0, zIndex: 10, background: "#F5F5F0" }}>
+        <div style={{ display: "flex", gap: 0, borderBottom: "2px solid #E5E7EB", paddingTop: 6, overflowX: "auto" }}>
+          {tabs.map((tab, i) => (
+            <button key={i} onClick={() => setActiveTab(i)} style={{
+              padding: "12px 14px", border: "none", whiteSpace: "nowrap",
+              borderBottom: activeTab === i ? "2px solid #C5A55A" : "2px solid transparent",
+              background: "none", fontSize: 13, fontWeight: activeTab === i ? 600 : 400,
+              color: activeTab === i ? "#1B2A4A" : "#6B7280", cursor: "pointer", marginBottom: -2,
+            }}>{tab}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "28px 24px 64px" }}>
+
+        {/* ═══ COLOR ═══ */}
+        {activeTab === 0 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>COLOR PALETTE</h2>
+            <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 }}>
+              BulldonコーポレートのNavy×Blueに対し、B-PASSプロダクトはNavy×Goldで差別化。会員証・ラベル・アクセントにゴールドを使用。
+            </p>
+
+            {[
+              { label: "PRIMARY", keys: ["navy", "deepNavy"] },
+              { label: "ACCENT — GOLD", keys: ["gold", "lightGold", "darkGold"] },
+              { label: "NEUTRAL", keys: ["white", "offWhite", "gray100", "gray", "darkText"] },
+              { label: "SEMANTIC", keys: ["success", "warning", "error"] },
+            ].map((group) => (
+              <div key={group.label} style={{ marginBottom: 24 }}>
+                <SectionLabel>{group.label}</SectionLabel>
+                <div style={{ display: "grid", gridTemplateColumns: group.keys.length > 3 ? "1fr 1fr 1fr" : `repeat(${group.keys.length}, 1fr)`, gap: 10 }}>
+                  {group.keys.map(k => <ColorSwatch key={k} {...colors[k]} />)}
+                </div>
+              </div>
+            ))}
+
+            <SectionLabel>GRADIENTS</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {[
+                { bg: "linear-gradient(135deg, #1B2A4A, #0F1B33)", label: "Navy → Deep Navy" },
+                { bg: "linear-gradient(135deg, #C5A55A, #E8D5A3)", label: "Gold → Light Gold", dark: false },
+              ].map((g, i) => (
+                <div key={i} style={{ background: g.bg, borderRadius: 12, padding: 18, height: 70, display: "flex", alignItems: "flex-end" }}>
+                  <span style={{ fontSize: 10, color: g.dark === false ? "#1B2A4A" : "rgba(255,255,255,0.5)", fontFamily: "'JetBrains Mono', monospace" }}>{g.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 24, background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E5E7EB" }}>
+              <SectionLabel>BRAND HIERARCHY</SectionLabel>
+              <div style={{ display: "flex", gap: 12, alignItems: "stretch" }}>
+                <div style={{ flex: 1, background: "#F9FAFB", borderRadius: 10, padding: 14, textAlign: "center" }}>
+                  <div style={{ fontSize: 10, color: "#6B7280", marginBottom: 8 }}>Bulldon LLC</div>
+                  <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
+                    <div style={{ width: 24, height: 24, borderRadius: 4, background: "#1B2A4A" }} />
+                    <div style={{ width: 24, height: 24, borderRadius: 4, background: "#3B82F6" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#9CA3AF", marginTop: 6 }}>コーポレートブランド</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", color: "#C5A55A", fontSize: 18 }}>→</div>
+                <div style={{ flex: 1, background: "#F9FAFB", borderRadius: 10, padding: 14, textAlign: "center", border: "1px solid rgba(197,165,90,0.3)" }}>
+                  <div style={{ fontSize: 10, color: "#C5A55A", fontWeight: 600, marginBottom: 8 }}>B-PASS</div>
+                  <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
+                    <div style={{ width: 24, height: 24, borderRadius: 4, background: "#1B2A4A" }} />
+                    <div style={{ width: 24, height: 24, borderRadius: 4, background: "#C5A55A" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#9CA3AF", marginTop: 6 }}>プロダクトブランド</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══ TYPOGRAPHY ═══ */}
+        {activeTab === 1 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>TYPOGRAPHY</h2>
+            <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 }}>3フォントシステム。英数字にOswald、日本語にNoto Sans JP、IDコードにJetBrains Mono。</p>
+
+            {[
+              { name: "DISPLAY — OSWALD", usage: "見出し / ブランド名 / 日程 / ID", font: "'Oswald', sans-serif", samples: [
+                { text: "B-PASS", size: 34, weight: 700, ls: 2 },
+                { text: "4/8(Tue) 19:00〜22:00", size: 22, weight: 600 },
+                { text: "MEMBER PASSPORT", size: 14, weight: 500, color: "#6B7280" },
+              ]},
+              { name: "BODY — NOTO SANS JP", usage: "本文 / UIテキスト全般", font: "'Noto Sans JP', sans-serif", samples: [
+                { text: "参加日程を選択してください", size: 18, weight: 700 },
+                { text: "当日、受付で会員証をご提示ください。", size: 14, weight: 500 },
+                { text: "B-PASSは法人・団体向けの部活動管理プラットフォームです。", size: 12, weight: 400, color: "#6B7280" },
+              ]},
+              { name: "MONO — JETBRAINS MONO", usage: "ID / HEX / コード", font: "'JetBrains Mono', monospace", samples: [
+                { text: "SS000001", size: 18, weight: 500, color: "#C5A55A" },
+                { text: "#1B2A4A / #C5A55A", size: 13, weight: 400, color: "#6B7280" },
+              ]},
+            ].map((group) => (
+              <div key={group.name} style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, marginBottom: 14, border: "1px solid #E5E7EB" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 14 }}>
+                  <SectionLabel>{group.name}</SectionLabel>
+                  <span style={{ fontSize: 10, color: "#9CA3AF" }}>{group.usage}</span>
+                </div>
+                {group.samples.map((s, i) => (
+                  <div key={i} style={{ fontFamily: group.font, fontSize: s.size, fontWeight: s.weight, color: s.color || "#1B2A4A", letterSpacing: s.ls, marginBottom: 6 }}>{s.text}</div>
+                ))}
+              </div>
+            ))}
+
+            <SectionLabel>TYPE SCALE</SectionLabel>
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E5E7EB" }}>
+              {[
+                { size: 34, weight: 700, label: "H1 — Brand", font: "Oswald" },
+                { size: 22, weight: 600, label: "H2 — Section", font: "Oswald" },
+                { size: 18, weight: 700, label: "H3 — Card Title", font: "Noto Sans JP" },
+                { size: 14, weight: 500, label: "Body", font: "Noto Sans JP" },
+                { size: 12, weight: 400, label: "Small", font: "Noto Sans JP" },
+                { size: 10, weight: 400, label: "Micro — Labels", font: "Noto Sans JP" },
+              ].map((s, i, arr) => (
+                <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "6px 0", borderBottom: i < arr.length - 1 ? "1px solid #F3F4F6" : "none" }}>
+                  <span style={{ fontFamily: `'${s.font}', sans-serif`, fontSize: s.size, fontWeight: s.weight, color: "#1B2A4A", minWidth: 100 }}>Aa あ</span>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#6B7280" }}>{s.size}px / {s.weight}</span>
+                  <span style={{ fontSize: 10, color: "#9CA3AF" }}>{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ LOGO ═══ */}
+        {activeTab === 2 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>LOGO</h2>
+            <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 8, lineHeight: 1.6 }}>
+              Bulldonロゴはそのまま使用。B-PASSロゴは新たにゴールドアクセントを導入した3案を提示。
+            </p>
+            <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 24, padding: "8px 12px", background: "#FFFFFF", borderRadius: 8, border: "1px solid #E5E7EB" }}>
+              💡 最終決定は戸野塚さんと相談の上、Figmaで仕上げてください。ここでは方向性とコンセプトを確認します。
+            </div>
+
+            {/* Bulldon Corporate (unchanged) */}
+            <SectionLabel>CORPORATE — BULLDON LLC（変更なし）</SectionLabel>
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 24, marginBottom: 28, border: "1px solid #E5E7EB", textAlign: "center" }}>
+              <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 12 }}>牛角 × ヘキサゴン — Navy × Blue</div>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 12 }}>
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                  <polygon points="24,4 44,14 44,34 24,44 4,34 4,14" fill="none" stroke="#1B2A4A" strokeWidth="2.5" />
+                  <path d="M 14,28 Q 14,16 24,12 Q 34,16 34,28" fill="none" stroke="#3B82F6" strokeWidth="2" />
+                  <circle cx="24" cy="30" r="3" fill="#1B2A4A" />
+                </svg>
+                <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28, fontWeight: 700, color: "#1B2A4A", letterSpacing: 1 }}>BullDon</span>
+              </div>
+              <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 8 }}>コーポレートサイト・契約書・名刺に使用</div>
+            </div>
+
+            {/* B-PASS Logo Concepts */}
+            <SectionLabel>PRODUCT — B-PASS ロゴ新案（3パターン）</SectionLabel>
+
+            {/* Concept A */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#1B2A4A", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ padding: "2px 8px", borderRadius: 4, background: "#C5A55A", color: "#0F1B33", fontSize: 10, fontWeight: 700 }}>A</span>
+                ゴールドハイフン — 最小限の変更でゴールドアクセントを導入
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <LogoPanel label="Dark BG" bg="linear-gradient(135deg, #1B2A4A, #0F1B33)"><LogoTypeA onDark={true} /></LogoPanel>
+                <LogoPanel label="Light BG" bg="#FFFFFF"><LogoTypeA onDark={false} /></LogoPanel>
+              </div>
+            </div>
+
+            {/* Concept B */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#1B2A4A", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ padding: "2px 8px", borderRadius: 4, background: "#C5A55A", color: "#0F1B33", fontSize: 10, fontWeight: 700 }}>B</span>
+                ゴールドアイコン — 角丸アイコン付きロゴタイプ（アプリ対応）
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <LogoPanel label="Dark BG" bg="linear-gradient(135deg, #1B2A4A, #0F1B33)"><LogoTypeB onDark={true} /></LogoPanel>
+                <LogoPanel label="Light BG" bg="#FFFFFF"><LogoTypeB onDark={false} /></LogoPanel>
+              </div>
+            </div>
+
+            {/* Concept C */}
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#1B2A4A", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ padding: "2px 8px", borderRadius: 4, background: "#C5A55A", color: "#0F1B33", fontSize: 10, fontWeight: 700 }}>C</span>
+                ヘキサゴン — Bulldonロゴとの一体感（六角形モチーフ継承）
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <LogoPanel label="Dark BG" bg="linear-gradient(135deg, #1B2A4A, #0F1B33)"><LogoTypeC onDark={true} /></LogoPanel>
+                <LogoPanel label="Light BG" bg="#FFFFFF"><LogoTypeC onDark={false} /></LogoPanel>
+              </div>
+            </div>
+
+            {/* App Icons */}
+            <SectionLabel>APP ICON VARIANTS</SectionLabel>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 24 }}>
+              {[
+                { label: "A: 文字のみ", content: <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 24, fontWeight: 700, color: "#FFFFFF" }}>B<span style={{ color: "#C5A55A" }}>-</span>P</div> },
+                { label: "B: ゴールドアイコン", content: <div style={{ width: 48, height: 48, borderRadius: 12, background: "linear-gradient(135deg, #C5A55A, #E8D5A3)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28, fontWeight: 700, color: "#0F1B33" }}>B</span></div> },
+                { label: "C: ヘキサゴン", content: <svg width="48" height="48" viewBox="0 0 48 48"><polygon points="24,4 42,14 42,34 24,44 6,34 6,14" fill="none" stroke="#C5A55A" strokeWidth="2" /><text x="24" y="30" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="22" fill="#C5A55A">B</text></svg> },
+              ].map((item, i) => (
+                <div key={i} style={{ background: "linear-gradient(135deg, #1B2A4A, #0F1B33)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+                  {item.content}
+                  <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>{item.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Usage Rules */}
+            <SectionLabel>USAGE RULES</SectionLabel>
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E5E7EB" }}>
+              {[
+                "ロゴの周囲に最低「B」の高さ分のクリアスペースを確保",
+                "B-PASSロゴのカラーはNavy / Gold / Whiteのみ使用可",
+                "暗い背景 → Whiteテキスト＋Goldアクセント / 明るい背景 → Navyテキスト＋Goldアクセント",
+                "ロゴの変形・回転・影・グラデーション追加は禁止",
+                "顧客側UIでは「Powered by B-PASS」をフッターに配置",
+                "BulldonロゴとB-PASSロゴの同時表示時は、Bulldonを上位・B-PASSを下位に配置",
+              ].map((rule, i, arr) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "7px 0", borderBottom: i < arr.length - 1 ? "1px solid #F3F4F6" : "none" }}>
+                  <span style={{ fontSize: 10, color: "#C5A55A", marginTop: 2 }}>●</span>
+                  <span style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{rule}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ UI SAMPLES ═══ */}
+        {activeTab === 3 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>UI SAMPLES</h2>
+            <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 }}>
+              ブランドガイドラインを適用したUIコンポーネント。LINE / LIFF / 管理画面で統一的に使用。
+            </p>
+
+            <SectionLabel>会員証カード</SectionLabel>
+            <div style={{ marginBottom: 32 }}><MemberCard /></div>
+
+            <SectionLabel>参加申込カード</SectionLabel>
+            <div style={{ marginBottom: 32 }}><ScheduleCard /></div>
+
+            <SectionLabel>リッチメニュー（リデザイン案）</SectionLabel>
+            <div style={{ marginBottom: 8 }}><RichMenuPreview /></div>
+            <p style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 32, textAlign: "center" }}>現在の6色バラバラ → Navy×Goldで統一</p>
+
+            <SectionLabel>ボタンスタイル</SectionLabel>
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E5E7EB", display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { bg: "linear-gradient(135deg, #1B2A4A, #263a5e)", color: "#FFF", label: "Primary — 申込・確定" },
+                { bg: "transparent", color: "#1B2A4A", label: "Secondary — キャンセル・戻る", border: "2px solid #1B2A4A" },
+                { bg: "linear-gradient(135deg, #C5A55A, #E8D5A3)", color: "#0F1B33", label: "Accent — 特別アクション" },
+                { bg: "#EF4444", color: "#FFF", label: "Danger — 削除・取消" },
+              ].map((btn, i) => (
+                <button key={i} style={{
+                  padding: "12px 20px", border: btn.border || "none", borderRadius: 8,
+                  background: btn.bg, color: btn.color, fontSize: 13, fontWeight: 600, cursor: "pointer",
+                }}>{btn.label}</button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ FLEX MESSAGE ═══ */}
+        {activeTab === 4 && (
+          <div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 600, color: "#1B2A4A", letterSpacing: 2, marginBottom: 6 }}>FLEX MESSAGE CATALOG</h2>
+            <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 }}>
+              現在のB-PASS Flex Messageの全画面をブランドガイドラインに沿って整理。ヘッダーカラーで状態を識別。
+            </p>
+
+            <div style={{ background: "#FFFFFF", borderRadius: 16, padding: 20, marginBottom: 24, border: "1px solid #E5E7EB" }}>
+              <SectionLabel>HEADER COLOR SYSTEM</SectionLabel>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                {[
+                  { color: "#1B2A4A", label: "Navy", usage: "標準操作（申込・予約・管理者・リマインド）" },
+                  { color: "#22C55E", label: "Green", usage: "成功・完了（連携完了・予約確定）" },
+                  { color: "#EF4444", label: "Red", usage: "破壊的操作（キャンセル・取消・警告）" },
+                  { color: "#C5A55A", label: "Gold", usage: "特別・プレミアム（会員証・ランク昇格）" },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 8, background: "#F9FAFB" }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 4, background: item.color, flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: "#1F2937" }}>{item.label}</div>
+                      <div style={{ fontSize: 9, color: "#6B7280" }}>{item.usage}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+              <div>
+                <SectionLabel>連携完了</SectionLabel>
+                <FlexMessageDemo type="welcome" />
+              </div>
+              <div>
+                <SectionLabel>前日リマインド</SectionLabel>
+                <FlexMessageDemo type="reminder" />
+              </div>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 24 }}>
+              <div>
+                <SectionLabel>キャンセル理由</SectionLabel>
+                <FlexMessageDemo type="cancel" />
+              </div>
+              <div>
+                <SectionLabel>管理者メニュー</SectionLabel>
+                <FlexMessageDemo type="admin" />
+              </div>
+            </div>
+
+            <div style={{ marginTop: 28, background: "#FFFFFF", borderRadius: 16, padding: 20, border: "1px solid #E5E7EB" }}>
+              <SectionLabel>FLEX MESSAGE 全画面一覧</SectionLabel>
+              <div style={{ fontSize: 12, color: "#374151", lineHeight: 2 }}>
+                {[
+                  { header: "Navy", screens: "ウェルカム / ID連携 / 使い方ガイド / 参加日程選択 / 最終確認 / 予約状況 / 活動履歴 / 予約確定 / 管理者メニュー / TODAY'S STATS / TODAY'S LIST / メンバー検索 / 代理操作メニュー / リマインド / オープンチャット" },
+                  { header: "Green", screens: "連携完了" },
+                  { header: "Red", screens: "キャンセル選択 / キャンセル理由 / CANCELED" },
+                  { header: "Amber", screens: "最少人数アラート" },
+                ].map((group, i) => (
+                  <div key={i} style={{ marginBottom: 8 }}>
+                    <span style={{ fontWeight: 600, color: group.header === "Navy" ? "#1B2A4A" : group.header === "Green" ? "#22C55E" : group.header === "Red" ? "#EF4444" : "#F59E0B" }}>
+                      {group.header}:
+                    </span>{" "}
+                    <span style={{ color: "#6B7280" }}>{group.screens}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(BPassBrandGuidelines));
+    </script>
+</body>
+</html>
