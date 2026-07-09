@@ -19,3 +19,8 @@ GitHub Pagesで公開。
 
 ## 関連
 詳細仕様は `../_shared/` を参照
+
+## 上位ルール
+
+ワークスペース `../.claude/rules/`（bulldon-workspace）を継承（commit-style / _meta-rules / brand-design）。
+GAS リポジトリではないため `gas-architecture.md` / `b-pass-design.md` は対象外。全体の正本は `../AGENTS.md`。
