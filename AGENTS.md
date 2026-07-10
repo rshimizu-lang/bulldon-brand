@@ -18,7 +18,7 @@ GitHub Pagesで公開。
 - 内容変更時は関係者（COO・CGO）と合意してから更新
 
 ## 関連
-詳細仕様は `../_shared/` を参照
+詳細は `.claude/rules/brand-design.md`（統治規則）および `bull-don.hp/docs/HANDOVER_to_ClaudeCode.md` 4章（実装向け詳細）を参照
 
 ## 上位ルール
 
