@@ -1,3 +1,7 @@
+---
+last_reviewed: 2026-07-11
+---
+
 # bulldon-brand
 
 > **層：運用層（operations）｜事実変化はAIが差分提示→承認後に更新可。**
@@ -8,9 +12,10 @@ GitHub Pagesで公開。
 
 ## ファイル構成
 - index.html : 入口ページ
-- Bulldon_Corporate_Brand_Guidelines.html : 法人ブランド
-- B-PASS_Brand_Guidelines.html : B-PASSプロダクトブランド
-- Samurai_Shimonz_Brand_Guidelines.html : サムライシモンズブランド
+- Bulldon_Corporate_Brand_Guidelines.html : 法人ブランド（レンダリング・見せ方）
+- B-PASS_Brand_Guidelines.html : B-PASSプロダクトブランド（レンダリング・見せ方）
+- Samurai_Shimonz_Brand_Guidelines.html : サムライシモンズブランド（レンダリング・見せ方）
+- brand-tokens.md : ブランドトークン正本（色・フォント・コピーの機械可読な値。値の一次情報はこちら）
 
 ## 開発ルール
 - ブランドカラー・タイポグラフィ・ロゴ使用ルールを定義
@@ -18,7 +23,7 @@ GitHub Pagesで公開。
 - 内容変更時は関係者（COO・CGO）と合意してから更新
 
 ## 関連
-詳細は `.claude/rules/brand-design.md`（統治規則）および `bull-don.hp/docs/HANDOVER_to_ClaudeCode.md` 4章（実装向け詳細）を参照
+値の正本は `brand-tokens.md`（本リポ内）。統治規則（ゾーン適用ルール・変更手続き）は `../.claude/rules/brand-design.md` を参照。`bull-don.hp/docs/HANDOVER_to_ClaudeCode.md` 4章は歴史文書（値の正は `brand-tokens.md`）。
 
 ## 上位ルール
 
