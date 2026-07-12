@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-11
+last_reviewed: 2026-07-12
 ---
 
 # ブランドトークン正本
@@ -32,7 +32,7 @@ bull-don.hp 実装の CSS 変数名：`--bg` / `--bg-soft` / `--text` / `--text-
 | 名称 | 値 | 出典・備考 |
 |---|---|---|
 | Gold | `#C5A55A` | 出典間で一致 |
-| Light Gold | ⚠️ **要確認：COO・CGO合意待ち（値がdrift中・暫定値は使用しないこと）** | `B-PASS_Brand_Guidelines.html:24` は `#E8D5A3`、`bull-don.hp/docs/HANDOVER_to_ClaudeCode.md:123` は `#EBD5A3`。1文字差でどちらが正か判定不能（参考事実：現行実装 bull-don.hp は `#EBD5A3` を使用中） |
+| Light Gold | `#E8D5A3` | 2026-07-12、COO・CGO確認済みで確定（`B-PASS_Brand_Guidelines.html:24`と一致）。従来drift値`#EBD5A3`（`HANDOVER_to_ClaudeCode.md:123`旧記載・bull-don.hp/bull-don.lp実装の旧値）は本値へ統一済み。`bull-don.hp/docs/mockups/*.html`は本番導線に乗らない歴史的モックのため未更新（意図的・HANDOVER本文と同じ歴史記録扱い） |
 | Dark Gold | `#9E843F` | 出典間で一致 |
 | Gold（背景用） | `rgba(197, 165, 90, 0.15)` | HANDOVER のみに存在（要約表からは欠落していた値） |
 
@@ -42,7 +42,7 @@ bull-don.hp 実装の CSS 変数名：`--bg` / `--bg-soft` / `--text` / `--text-
 |---|---|---|
 | Orange | `#F97316` | 出典間で一致 |
 | Deep Orange | `#EA580C` | 出典間で一致 |
-| （3色目） | ⚠️ **要確認：COO・CGO合意待ち（値がdrift中・暫定値は使用しないこと）** | 同名トークンの値がdrift：HANDOVER:132「warm-yellow」`#FCC24B` vs `Samurai_Shimonz_Brand_Guidelines.html:24`「warmYellow」`#FCD34D`（参考事実：現行実装 bull-don.hp は `#FCC24B` を使用中）。加えて同HTML:23「lightOrange」`#FDBA74` はHANDOVER側に対応トークンが存在しない別色（HTML側はオレンジ系4トークン構成）。本ファイル新設作業中に新規検出。brand--02が記録したLight Gold drift とは別件 |
+| Warm Yellow | `#FCD34D` | 2026-07-12、COO・CGO確認済みで確定（`Samurai_Shimonz_Brand_Guidelines.html:24`「warmYellow」と一致）。従来drift値`#FCC24B`（`HANDOVER_to_ClaudeCode.md:132`旧記載・bull-don.hp実装の旧値）は本値へ統一済み。なお同HTML:23「lightOrange」`#FDBA74`はHANDOVER側に対応トークンが存在しない別色（HTML側はオレンジ系4トークン構成。統合対象外） |
 | Orange（背景用） | `rgba(249, 115, 22, 0.15)` | HANDOVER のみに存在（要約表からは欠落していた値） |
 
 ## フォント
