@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-11
+last_reviewed: 2026-07-12
 ---
 
 # bulldon-brand
@@ -9,6 +9,8 @@ last_reviewed: 2026-07-11
 ## このリポジトリについて
 ブルドン合同会社およびプロダクト群のブランドガイドライン集。
 GitHub Pagesで公開。
+
+**publicリポジトリ**（GitHub Pages・履歴含め全公開）。禁止物は法律層 `../.claude/rules/public-repo-guard.md` を正本とする。
 
 ## ファイル構成
 - index.html : 入口ページ
@@ -27,5 +29,5 @@ GitHub Pagesで公開。
 
 ## 上位ルール
 
-ワークスペース `../.claude/rules/`（bulldon-workspace）を継承（commit-style / _meta-rules / brand-design）。
+ワークスペース `../.claude/rules/`（bulldon-workspace）を継承（commit-style / _meta-rules / brand-design / public-repo-guard）。
 GAS リポジトリではないため `gas-architecture.md` / `b-pass-design.md` は対象外。全体の正本は `../AGENTS.md`。
