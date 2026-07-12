@@ -1,10 +1,15 @@
 ---
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-13
 ---
 
 # bulldon-brand
 
 > **層：運用層（operations）｜事実変化はAIが差分提示→承認後に更新可。**
+
+## Before editing（Codex等・非CCエージェント向け）
+
+- ブランド色・フォント・コピーの統治規則：`../.claude/rules/brand-design.md` を読む（値の変更は関係者＝COO・CGOの合意が前提）
+- publicリポ共通の禁止物：`../.claude/rules/public-repo-guard.md` を読む
 
 ## このリポジトリについて
 ブルドン合同会社およびプロダクト群のブランドガイドライン集。
