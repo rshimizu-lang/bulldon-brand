@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-12
+last_reviewed: 2026-09-25
 ---
 
 # ブランドトークン正本
@@ -27,7 +27,7 @@ last_reviewed: 2026-07-12
 
 bull-don.hp 実装の CSS 変数名：`--bg` / `--bg-soft` / `--text` / `--text-secondary` / `--text-tertiary` / `--accent` / `--accent-light` / `--accent-soft` / `--line` / `--line-strong`。
 
-## B-PASS ゾーンカラー（`bull-don.hp` の `/business/bpass`、`bull-don.lp` 全体で使用可）
+## B-PASS ゾーンカラー（`bull-don.hp` の `/business/bpass`、`bull-don.lp` 全体で基調として使用可。コーポレート面では B-PASS を指す要素に限り使用可）
 
 | 名称 | 値 | 出典・備考 |
 |---|---|---|
@@ -36,7 +36,7 @@ bull-don.hp 実装の CSS 変数名：`--bg` / `--bg-soft` / `--text` / `--text-
 | Dark Gold | `#9E843F` | 出典間で一致 |
 | Gold（背景用） | `rgba(197, 165, 90, 0.15)` | HANDOVER のみに存在（要約表からは欠落していた値） |
 
-## サムシモ ゾーンカラー（`bull-don.hp` の `/business/shimonz` で使用可）
+## サムシモ ゾーンカラー（`bull-don.hp` の `/business/shimonz` で基調として使用可。コーポレート面ではサムライシモンズを指す要素に限り使用可）
 
 | 名称 | 値 | 出典・備考 |
 |---|---|---|
